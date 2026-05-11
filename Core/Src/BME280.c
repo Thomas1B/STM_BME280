@@ -240,14 +240,9 @@ void BME280Calculation(BME280_Data_t *result) {
 	result->Pressure = (BME280_measure_Press(rawData.pressr)) / 25600.0;//hPa
 	result->Humidity = (BME280_measure_Hum(rawData.humr)) / 1024.0;		//%RH
 
-	result->AltitudeP = 44330
+	result->Altitude = 44330
 			* (1 - pow(result->Pressure / 1013.25, 1 / 5.255)); /*Calculation of altitude parameter in meters with
 			 simplified atmospheric pressure formula*/
-
-	result->AltitudeTP =
-			((log(result->Pressure / 1013.25) * (288.16) * (-8.314))
-					/ (28.97 * 9.81)) * 1000; /*Calculation of altitude parameter in
-			 meters with atmospheric pressure formula*/
 }
 
 /**

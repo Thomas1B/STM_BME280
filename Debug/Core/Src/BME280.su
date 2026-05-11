@@ -9,5 +9,5 @@
 ../Core/Src/BME280.c:191:10:BME280_measure_Hum	24	static
 ../Core/Src/BME280.c:221:7:BME280_getHumidity	24	static
 ../Core/Src/BME280.c:234:6:BME280Calculation	32	static
-../Core/Src/BME280.c:261:7:BME280_getAltitude	24	static
-../Core/Src/BME280.c:284:6:BME280Init	40	static
+../Core/Src/BME280.c:256:7:BME280_getAltitude	24	static
+../Core/Src/BME280.c:279:6:BME280Init	40	static

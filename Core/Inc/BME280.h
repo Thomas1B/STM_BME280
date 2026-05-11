@@ -102,8 +102,7 @@ typedef struct {
     float Temperature;
     float Pressure;
     float Humidity;
-    float AltitudeP;
-    float AltitudeTP;
+    float Altitude;
 }BME280_Data_t;
 
 /**

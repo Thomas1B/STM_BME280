@@ -57,6 +57,8 @@ BME280_Init_t bme280Init = {
 		.SPI_EnOrDıs = SPI3_W_DISABLE
 };
 
+
+BME280_Data_t bmeData;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -114,7 +116,7 @@ int main(void) {
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-//		BME280_Data_t bmeData;
+
 
 		printf("Temperature: %.2f °C\r\n", BME280_getTemperature());
 		printf("Pressure: %.2f hPa\r\n", BME280_getPressure());
