@@ -1,0 +1,13 @@
+../Core/Src/BME280.c:25:6:Reset_BME280	32	static
+../Core/Src/BME280.c:51:19:BME280_SleepMode	32	static
+../Core/Src/BME280.c:67:6:Calibdata_BME280	64	static
+../Core/Src/BME280.c:104:12:RawdataBME280	64	static
+../Core/Src/BME280.c:127:9:BME280_measure_Temp	32	static
+../Core/Src/BME280.c:144:7:BME280_getTemperature	24	static
+../Core/Src/BME280.c:157:10:BME280_measure_Press	328	static
+../Core/Src/BME280.c:178:7:BME280_getPressure	24	static
+../Core/Src/BME280.c:191:10:BME280_measure_Hum	24	static
+../Core/Src/BME280.c:221:7:BME280_getHumidity	24	static
+../Core/Src/BME280.c:234:6:BME280Calculation	32	static
+../Core/Src/BME280.c:261:7:BME280_getAltitude	24	static
+../Core/Src/BME280.c:284:6:BME280Init	40	static
