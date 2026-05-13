@@ -125,26 +125,25 @@ Raw_Data_t BME280_RawData(void) {
  *
  * @retval Processed temperature data in hundredths of a degree Celsius
  */
-int32_t BME280_measure_Temp(int32_t adc_T)
-{
-    int32_t var1, var2, T;
+int32_t BME280_measure_Temp(int32_t adc_T) {
+	int32_t var1, var2, T;
 
-    /* First compensation calculation */
-    var1 = (adc_T >> 3) - ((int32_t)dig_T1 << 1);
-    var1 = (var1 * (int32_t)dig_T2) >> 11;
+	/* First compensation calculation */
+	var1 = (adc_T >> 3) - ((int32_t) dig_T1 << 1);
+	var1 = (var1 * (int32_t) dig_T2) >> 11;
 
-    /* Second compensation calculation */
-    var2 = (adc_T >> 4) - (int32_t)dig_T1;
-    var2 = ((var2 * var2) >> 12);
-    var2 = (var2 * (int32_t)dig_T3) >> 14;
+	/* Second compensation calculation */
+	var2 = (adc_T >> 4) - (int32_t) dig_T1;
+	var2 = ((var2 * var2) >> 12);
+	var2 = (var2 * (int32_t) dig_T3) >> 14;
 
-    /* Fine temperature value used for pressure/humidity compensation */
-    t_fine = var1 + var2;
+	/* Fine temperature value used for pressure/humidity compensation */
+	t_fine = var1 + var2;
 
-    /* Final temperature in 0.01 °C */
-    T = (t_fine * 5 + 128) >> 8;
+	/* Final temperature in 0.01 °C */
+	T = (t_fine * 5 + 128) >> 8;
 
-    return T;
+	return T;
 }
 /*
  * @brief  Compensation formula for temperature and return the value in degree Celsius
@@ -163,7 +162,7 @@ float BME280_getTemperature(int32_t adc_T) {
  *
  * @param  Raw pressure data
  *
- * @retval Processed pressure data
+ * @retval Compensated pressure data in Q24.8 format (Pa * 256)
  */
 uint32_t BME280_measure_Press(int32_t adc_P) {
 	int64_t var1, var2, p;
@@ -186,9 +185,17 @@ uint32_t BME280_measure_Press(int32_t adc_P) {
 	return (uint32_t) p;
 }
 
+/*
+ * @brief  Compensation formula for pressure and return the value in hPa
+ *
+ * @param  Raw pressure data
+ *
+ * @retval Compensated pressure data in hPa
+ *
+ */
 float BME280_getPressure(int32_t adc_P) {
-
-	return (BME280_measure_Press(adc_P)) / 25600.0;
+	float Pascals = BME280_measure_Press(adc_P) / 256.0f; // Convert from Q24.8 format to Pa
+	return Pascals / 100.0f; // Convert from Pa to hPa
 }
 
 /**
@@ -242,16 +249,14 @@ float BME280_getHumidity(int32_t adc_H) {
  */
 void BME280Calculation(BME280_Data_t *result) {
 
-
 	Raw_Data_t rawData = BME280_RawData();
 
 	result->Temperature = (BME280_measure_Temp(rawData.tempr)) / 100.0;	//Degress
 	result->Pressure = (BME280_measure_Press(rawData.pressr)) / 25600.0;//hPa
 	result->Humidity = (BME280_measure_Hum(rawData.humr)) / 1024.0;		//%RH
 
-	result->Altitude = 44330
-			* (1 - pow(result->Pressure / 1013.25, 1 / 5.255)); /*Calculation of altitude parameter in meters with
-			 simplified atmospheric pressure formula*/
+	result->Altitude = 44330 * (1 - pow(result->Pressure / 1013.25, 1 / 5.255)); /*Calculation of altitude parameter in meters with
+	 simplified atmospheric pressure formula*/
 }
 
 /**
