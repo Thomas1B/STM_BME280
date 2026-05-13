@@ -19,6 +19,13 @@ Pick what I2C pins/channel you want to use.
 Copy `BME280.C` to "Core/Src", and `BME280.h` to "Core/Inc"
 
 ```C
+/* USER CODE BEGIN Includes */
+#include <stdio.h>
+#include "BME280.h"
+/* USER CODE END Includes */
+```
+
+```C
 /* USER CODE BEGIN PV */
 BME280_Init_t bme280Init = {
 		/* Configuration of BME280_Init_t structure with desired settings
