@@ -96,7 +96,7 @@ typedef struct{
 	int32_t tempr;
 	int32_t pressr;
 	int32_t humr;
-}Raw_Data_t;
+}BME280_Raw_Data_t;
 
 typedef struct {
     float Temperature;
@@ -123,7 +123,7 @@ typedef struct
  * BME280 library function declaration
  */
 void BME280_Calibrate(void);
-Raw_Data_t BME280_RawData(void);
+BME280_Raw_Data_t BME280_RawData(void);
 void BME280Init(BME280_Init_t BME280Init);
 void BME280Calculation(BME280_Data_t *result);
 HAL_StatusTypeDef BME280_SleepMode(void);
@@ -133,7 +133,7 @@ int32_t BME280_measure_Temp(int32_t adc_T);
 float BME280_getTemperature(int32_t adc_T);
 float BME280_getPressure(int32_t adc_P);
 float BME280_getHumidity(int32_t adc_H);
-float BME280_getAltitude(void);
+float BME280_getAltitude(int32_t adc_P);
 
 void Reset_BME280(void);
 

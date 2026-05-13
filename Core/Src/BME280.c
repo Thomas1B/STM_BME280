@@ -101,10 +101,10 @@ void BME280_Calibrate(void) {
  *
  * @retval None
  */
-Raw_Data_t BME280_RawData(void) {
+BME280_Raw_Data_t BME280_RawData(void) {
 
 	uint8_t rawData[8];
-	Raw_Data_t data;
+	BME280_Raw_Data_t data;
 
 	HAL_I2C_Mem_Read(&bme_i2c, BME280_ADDR, RAWDATA_BASEADDR, 1, rawData, 8,
 			1000);
@@ -252,7 +252,7 @@ float BME280_getHumidity(int32_t adc_H) {
  */
 void BME280Calculation(BME280_Data_t *result) {
 
-	Raw_Data_t rawData = BME280_RawData();
+	BME280_Raw_Data_t rawData = BME280_RawData();
 
 	result->Temperature = (BME280_measure_Temp(rawData.tempr)) / 100.0;	//Degress
 	result->Pressure = (BME280_measure_Press(rawData.pressr)) / 25600.0;//hPa
@@ -265,21 +265,13 @@ void BME280Calculation(BME280_Data_t *result) {
 /**
  * @brief  Calculation of altitude from pressure value with simplified or complex formula
  *
- * @param  simplified argument to select the formula for altitude calculation.
- * If it is 0, the simplified formula will be used, otherwise the complex formula will be used.
+ * @param  adc_P Raw pressure data
  *
  * @retval Altitude value in meters
  */
-float BME280_getAltitude(void) {
-	Raw_Data_t rawData;
+float BME280_getAltitude(int32_t adc_P) {
 	float pressure;
-
-	rawData = BME280_RawData();
-
-	BME280_measure_Temp(rawData.tempr);
-
-	pressure = BME280_measure_Press(rawData.pressr) / 25600.0f;
-
+	pressure = BME280_measure_Press(adc_P) / 25600.0f;
 	return 44330.0f * (1.0f - powf(pressure / 1013.25f, 1.0f / 5.255f));
 }
 
