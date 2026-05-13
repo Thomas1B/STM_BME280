@@ -286,25 +286,6 @@ float BME280_getHumidity(int32_t adc_H) {
 }
 
 /**
- * @brief  Reading temperature, pressure and humidity and calculating altitude from pressure value
- *
- * @param  result argument to a BME280_Data_t structure that contains the calculated temperature, pressure, humidity and altitude values.
- *
- * @retval BME280 sensor datas in structure data type
- */
-void BME280Calculation(BME280_Data_t *result) {
-
-	BME280_Raw_Data_t rawData = BME280_RawData();
-
-	result->Temperature = (BME280_measure_Temp(rawData.tempr)) / 100.0;	//Degress
-	result->Pressure = (BME280_measure_Press(rawData.pressr)) / 25600.0;//hPa
-	result->Humidity = (BME280_measure_Hum(rawData.humr)) / 1024.0;		//%RH
-
-	result->Altitude = 44330 * (1 - pow(result->Pressure / 1013.25, 1 / 5.255)); /*Calculation of altitude parameter in meters with
-	 simplified atmospheric pressure formula*/
-}
-
-/**
  * @brief  Calculation of altitude from pressure value with simplified or complex formula
  *
  * @param  adc_P Raw pressure data
@@ -317,3 +298,21 @@ float BME280_getAltitude(int32_t adc_P) {
 	return 44330.0f * (1.0f - powf(pressure / 1013.25f, 1.0f / 5.255f));
 }
 
+/*
+ * @brief  Function to read all raw data, process them with compensation formulas and return the values in a structure
+ *
+ * @param  None
+ *
+ * @retval BME280_Data_t structure that contains temperature, pressure, humidity and altitude values
+ */
+BME280_Data_t BME280_getAllData(void) {
+	BME280_Data_t data;
+	BME280_Raw_Data_t rawData = BME280_RawData(); // Read raw data from the BME280 sensor
+
+	data.Temperature = BME280_getTemperature(rawData.tempr);
+	data.Pressure = BME280_getPressure(rawData.pressr);
+	data.Humidity = BME280_getHumidity(rawData.humr);
+	data.Altitude = BME280_getAltitude(rawData.pressr);
+
+	return data;
+}

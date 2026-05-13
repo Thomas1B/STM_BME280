@@ -133,10 +133,19 @@ int main(void) {
 
 		rawData = BME280_RawData(); // Read raw data from the BME280 sensor
 
+		printf("Using Separate Functions:\r\n");
 		printf("Temperature: %.2f C\r\n", BME280_getTemperature(rawData.tempr));
 		printf("Pressure: %.2f hPa\r\n", BME280_getPressure(rawData.pressr));
 		printf("Humidity: %.2f %%\r\n", BME280_getHumidity(rawData.humr));
 		printf("Altitude (P): %.2f m\r\n\n", BME280_getAltitude(rawData.pressr));
+
+		BME280_Data_t allData = BME280_getAllData(); // Get all processed data in a structure
+		printf("Using All in One Function:\r\n");
+		printf("Temperature: %.2f C\r\n", allData.Temperature);
+		printf("Pressure: %.2f hPa\r\n", allData.Pressure);
+		printf("Humidity: %.2f %%\r\n", allData.Humidity);
+		printf("Altitude (P): %.2f m\r\n\n", allData.Altitude);
+
 
 		HAL_Delay(1000);
 	}

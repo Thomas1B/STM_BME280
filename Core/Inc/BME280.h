@@ -125,7 +125,6 @@ typedef struct
 void BME280_Calibrate(void);
 BME280_Raw_Data_t BME280_RawData(void);
 void BME280Init(BME280_Init_t BME280Init);
-void BME280Calculation(BME280_Data_t *result);
 HAL_StatusTypeDef BME280_SleepMode(void);
 uint32_t BME280_measure_Hum(int32_t adc_H);
 uint32_t BME280_measure_Press(int32_t adc_P);
@@ -134,6 +133,7 @@ float BME280_getTemperature(int32_t adc_T);
 float BME280_getPressure(int32_t adc_P);
 float BME280_getHumidity(int32_t adc_H);
 float BME280_getAltitude(int32_t adc_P);
+BME280_Data_t BME280_getAllData(void);
 
 void Reset_BME280(void);
 
