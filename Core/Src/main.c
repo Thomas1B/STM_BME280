@@ -48,16 +48,12 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 BME280_Init_t bme280Init = {
-		/* Configuration of BME280_Init_t structure with desired settings
-		 * for oversampling, mode, standby time, filter and SPI interface */
-		.OverSampling_T = OVERSAMPLING_1,
-		.OverSampling_P = OVERSAMPLING_1,
-		.OverSampling_H = OVERSAMPLING_1,
-		.Mode = BME280_NORMAL_MODE,
-		.T_StandBy = T_SB_1000,
-		.Filter = FILTER_OFF,
-		.SPI_EnOrDıs = SPI3_W_DISABLE
-};
+/* Configuration of BME280_Init_t structure with desired settings
+ * for oversampling, mode, standby time, filter and SPI interface */
+.OverSampling_T = OVERSAMPLING_1, .OverSampling_P = OVERSAMPLING_1,
+		.OverSampling_H = OVERSAMPLING_1, .Mode = BME280_NORMAL_MODE,
+		.T_StandBy = T_SB_1000, .Filter = FILTER_OFF, .SPI_EnOrDıs =
+				SPI3_W_DISABLE };
 
 BME280_Raw_Data_t rawData; // Variable to hold raw data from the BME280 sensor
 
@@ -112,13 +108,10 @@ int main(void) {
 	BME280Init(bme280Init); // Initialize the BME280 sensor with the specified settings
 	BME280_Calibrate(); // Read the calibration data from the BME280 sensor
 
-
-	for (uint8_t addr = 1; addr < 128; addr++)
-	{
-	    if (HAL_I2C_IsDeviceReady(&hi2c1, addr << 1, 1, 100) == HAL_OK)
-	    {
-	        printf("Found device at 0x%02X\r\n", addr);
-	    }
+	for (uint8_t addr = 1; addr < 128; addr++) {
+		if (HAL_I2C_IsDeviceReady(&hi2c1, addr << 1, 1, 100) == HAL_OK) {
+			printf("Found device at 0x%02X\r\n", addr);
+		}
 	}
 
 	HAL_Delay(1000);
@@ -137,7 +130,8 @@ int main(void) {
 		printf("Temperature: %.2f C\r\n", BME280_getTemperature(rawData.tempr));
 		printf("Pressure: %.2f hPa\r\n", BME280_getPressure(rawData.pressr));
 		printf("Humidity: %.2f %%\r\n", BME280_getHumidity(rawData.humr));
-		printf("Altitude (P): %.2f m\r\n\n", BME280_getAltitude(rawData.pressr));
+		printf("Altitude (P): %.2f m\r\n\n",
+				BME280_getAltitude(rawData.pressr));
 
 		BME280_Data_t allData = BME280_getAllData(); // Get all processed data in a structure
 		printf("Using All in One Function:\r\n");
@@ -145,7 +139,6 @@ int main(void) {
 		printf("Pressure: %.2f hPa\r\n", allData.Pressure);
 		printf("Humidity: %.2f %%\r\n", allData.Humidity);
 		printf("Altitude (P): %.2f m\r\n\n", allData.Altitude);
-
 
 		HAL_Delay(1000);
 	}
