@@ -101,7 +101,7 @@ void BME280_Calibrate(void) {
  *
  * @retval None
  */
-Raw_Data_t RawdataBME280(void) {
+Raw_Data_t BME280_RawData(void) {
 
 	uint8_t rawData[8];
 	Raw_Data_t data;
@@ -141,10 +141,8 @@ int32_t BME280_measure_Temp(int32_t adc_T) {
  * @brief  Compensation formula for temperature and return the value in degree Celsius
  *
  */
-float BME280_getTemperature(void) {
-	Raw_Data_t rawData = RawdataBME280();
-
-	return (BME280_measure_Temp(rawData.tempr)) / 100.0;
+float BME280_getTemperature(int32_t adc_T) {
+	return (BME280_measure_Temp(adc_T)) / 100.0;
 }
 
 /**
@@ -175,10 +173,9 @@ uint32_t BME280_measure_Press(int32_t adc_P) {
 	return (uint32_t) p;
 }
 
-float BME280_getPressure(void) {
-	Raw_Data_t rawData = RawdataBME280();
+float BME280_getPressure(int32_t adc_P) {
 
-	return (BME280_measure_Press(rawData.pressr)) / 25600.0;
+	return (BME280_measure_Press(adc_P)) / 25600.0;
 }
 
 /**
@@ -218,10 +215,9 @@ uint32_t BME280_measure_Hum(int32_t adc_H) {
  * @brief  Compensation formula for humidity and return the value in %RH
  *
  */
-float BME280_getHumidity(void) {
-	Raw_Data_t rawData = RawdataBME280();
+float BME280_getHumidity(int32_t adc_H) {
 
-	return (BME280_measure_Hum(rawData.humr)) / 1024.0;
+	return (BME280_measure_Hum(adc_H)) / 1024.0;
 }
 
 /**
@@ -232,7 +228,9 @@ float BME280_getHumidity(void) {
  * @retval BME280 sensor datas in structure data type
  */
 void BME280Calculation(BME280_Data_t *result) {
-	Raw_Data_t rawData = RawdataBME280();
+
+
+	Raw_Data_t rawData = BME280_RawData();
 
 	result->Temperature = (BME280_measure_Temp(rawData.tempr)) / 100.0;	//Degress
 	result->Pressure = (BME280_measure_Press(rawData.pressr)) / 25600.0;//hPa
@@ -255,7 +253,7 @@ float BME280_getAltitude(void) {
 	Raw_Data_t rawData;
 	float pressure;
 
-	rawData = RawdataBME280();
+	rawData = BME280_RawData();
 
 	BME280_measure_Temp(rawData.tempr);
 

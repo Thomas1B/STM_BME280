@@ -58,6 +58,9 @@ BME280_Init_t bme280Init = {
 		.Filter = FILTER_OFF,
 		.SPI_EnOrDıs = SPI3_W_DISABLE
 };
+
+Raw_Data_t rawData; // Variable to hold raw data from the BME280 sensor
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -128,9 +131,11 @@ int main(void) {
 
 		/* USER CODE BEGIN 3 */
 
-		printf("Temperature: %.2f C\r\n", BME280_getTemperature());
-		printf("Pressure: %.2f hPa\r\n", BME280_getPressure());
-		printf("Humidity: %.2f %%\r\n", BME280_getHumidity());
+		rawData = BME280_RawData(); // Read raw data from the BME280 sensor
+
+		printf("Temperature: %.2f C\r\n", BME280_getTemperature(rawData.tempr));
+		printf("Pressure: %.2f hPa\r\n", BME280_getPressure(rawData.pressr));
+		printf("Humidity: %.2f %%\r\n", BME280_getHumidity(rawData.humr));
 		printf("Altitude (P): %.2f m\r\n\n", BME280_getAltitude());
 
 		HAL_Delay(1000);
