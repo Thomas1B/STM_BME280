@@ -53,16 +53,18 @@ HAL_Delay(1000);
 ```C
 /* USER CODE BEGIN WHILE */
 while (1) {
-    /* USER CODE END WHILE */
+	/* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
+	/* USER CODE BEGIN 3 */
 
-    printf("Temperature: %.2f C\r\n", BME280_getTemperature());
-    printf("Pressure: %.2f hPa\r\n", BME280_getPressure());
-    printf("Humidity: %.2f %%\r\n", BME280_getHumidity());
-    printf("Altitude (P): %.2f m\r\n\n", BME280_getAltitude());
+	rawData = BME280_RawData(); // Read raw data from the BME280 sensor
 
-    HAL_Delay(1000);
+	printf("Temperature: %.2f C\r\n", BME280_getTemperature(rawData.tempr));
+	printf("Pressure: %.2f hPa\r\n", BME280_getPressure(rawData.pressr));
+	printf("Humidity: %.2f %%\r\n", BME280_getHumidity(rawData.humr));
+	printf("Altitude (P): %.2f m\r\n\n", BME280_getAltitude());
+
+	HAL_Delay(1000);
 }
 /* USER CODE END 3 */
 ```
