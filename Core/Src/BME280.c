@@ -118,27 +118,40 @@ Raw_Data_t BME280_RawData(void) {
 }
 
 /**
- * @brief  Compensation formula for temperature
+ * @brief  Measurement of temperature with compensation formula
+ * and return the value in hundredths of a degree Celsius
  *
  * @param  Raw temperature data
  *
- * @retval Processed temperature data
+ * @retval Processed temperature data in hundredths of a degree Celsius
  */
-int32_t BME280_measure_Temp(int32_t adc_T) {
-	int32_t var1, var2, T;
+int32_t BME280_measure_Temp(int32_t adc_T)
+{
+    int32_t var1, var2, T;
 
-	var1 = ((((adc_T >> 3) - ((int32_t) dig_T1 << 1))) * ((int32_t) dig_T2))
-			>> 11;
-	var2 = (((((adc_T >> 4) - ((int32_t) dig_T1))
-			* ((adc_T >> 4) - ((int32_t) dig_T1))) >> 12) * ((int32_t) dig_T3))
-			>> 14;
-	t_fine = var1 + var2;
-	T = (t_fine * 5 + 128) >> 8;
-	return T;
+    /* First compensation calculation */
+    var1 = (adc_T >> 3) - ((int32_t)dig_T1 << 1);
+    var1 = (var1 * (int32_t)dig_T2) >> 11;
+
+    /* Second compensation calculation */
+    var2 = (adc_T >> 4) - (int32_t)dig_T1;
+    var2 = ((var2 * var2) >> 12);
+    var2 = (var2 * (int32_t)dig_T3) >> 14;
+
+    /* Fine temperature value used for pressure/humidity compensation */
+    t_fine = var1 + var2;
+
+    /* Final temperature in 0.01 °C */
+    T = (t_fine * 5 + 128) >> 8;
+
+    return T;
 }
-
 /*
  * @brief  Compensation formula for temperature and return the value in degree Celsius
+ *
+ * @param  Raw temperature data
+ *
+ * @retval Processed temperature data in degree Celsius
  *
  */
 float BME280_getTemperature(int32_t adc_T) {
