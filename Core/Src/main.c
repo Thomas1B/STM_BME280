@@ -58,9 +58,6 @@ BME280_Init_t bme280Init = {
 		.Filter = FILTER_OFF,
 		.SPI_EnOrDıs = SPI3_W_DISABLE
 };
-
-
-BME280_Data_t bmeData;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -109,22 +106,19 @@ int main(void) {
 	MX_I2C1_Init();
 
 	/* USER CODE BEGIN 2 */
-	BME280Init(bme280Init);
+	BME280Init(bme280Init); // Initialize the BME280 sensor with the specified settings
+	BME280_Calibrate(); // Read the calibration data from the BME280 sensor
 
 
 	for (uint8_t addr = 1; addr < 128; addr++)
 	{
-	    if (HAL_I2C_IsDeviceReady(&hi2c1,
-	                              addr << 1,
-	                              1,
-	                              100) == HAL_OK)
+	    if (HAL_I2C_IsDeviceReady(&hi2c1, addr << 1, 1, 100) == HAL_OK)
 	    {
 	        printf("Found device at 0x%02X\r\n", addr);
 	    }
 	}
 
 	HAL_Delay(1000);
-
 	/* USER CODE END 2 */
 
 	/* Infinite loop */

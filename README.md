@@ -1,1 +1,68 @@
-# STM BME280 
+# STM BME280 using I2C
+
+Datasheet: [BME280](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme280-ds002.pdf)
+
+## BME280 Features
+
+The BME280 sensor is a 3 in 1 sensor" temperature, pressure, and humidity.
+
+## BME280 Setup
+It is always recommended to read the datasheet for full understanding.
+
+
+### In STM32CubeMX
+
+Pick what I2C pins/channel you want to use.
+
+### In STM32CubeIDE
+
+Copy `BME280.C` to "Core/Src", and `BME280.h` to "Core/Inc"
+
+```C
+/* USER CODE BEGIN PV */
+BME280_Init_t bme280Init = {
+		/* Configuration of BME280_Init_t structure with desired settings
+		 * for oversampling, mode, standby time, filter and SPI interface */
+		.OverSampling_T = OVERSAMPLING_1,
+		.OverSampling_P = OVERSAMPLING_1,
+		.OverSampling_H = OVERSAMPLING_1,
+		.Mode = BME280_NORMAL_MODE,
+		.T_StandBy = T_SB_1000,
+		.Filter = FILTER_OFF,
+		.SPI_EnOrDıs = SPI3_W_DISABLE
+};
+/* USER CODE END PV */
+```
+
+```C
+/* USER CODE BEGIN 2 */
+BME280Init(bme280Init); // Initialize the BME280 sensor with the specified settings
+BME280_Calibrate(); // Read the calibration data from the BME280 sensor
+
+for (uint8_t addr = 1; addr < 128; addr++)
+{
+    if (HAL_I2C_IsDeviceReady(&hi2c1, addr << 1, 1, 100) == HAL_OK)
+    {
+        printf("Found device at 0x%02X\r\n", addr);
+    }
+}
+HAL_Delay(1000);
+/* USER CODE END 2 */
+```
+
+```C
+/* USER CODE BEGIN WHILE */
+while (1) {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+
+    printf("Temperature: %.2f C\r\n", BME280_getTemperature());
+    printf("Pressure: %.2f hPa\r\n", BME280_getPressure());
+    printf("Humidity: %.2f %%\r\n", BME280_getHumidity());
+    printf("Altitude (P): %.2f m\r\n\n", BME280_getAltitude());
+
+    HAL_Delay(1000);
+}
+/* USER CODE END 3 */
+```
