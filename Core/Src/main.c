@@ -108,6 +108,20 @@ int main(void) {
 
 	/* USER CODE BEGIN 2 */
 	BME280Init(bme280Init);
+
+	for (uint8_t addr = 1; addr < 128; addr++)
+	{
+	    if (HAL_I2C_IsDeviceReady(&hi2c1,
+	                              addr << 1,
+	                              1,
+	                              100) == HAL_OK)
+	    {
+	        printf("Found device at 0x%02X\r\n", addr);
+	    }
+	}
+
+	HAL_Delay(1000);
+
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -117,11 +131,12 @@ int main(void) {
 
 		/* USER CODE BEGIN 3 */
 
+		Raw_Data_t rawData = RawdataBME280();
 
-		printf("Temperature: %.2f °C\r\n", BME280_getTemperature());
+		printf("Temperature: %.2f C\r\n", BME280_getTemperature());
 		printf("Pressure: %.2f hPa\r\n", BME280_getPressure());
 		printf("Humidity: %.2f %%\r\n", BME280_getHumidity());
-		printf("Altitude (P): %.2f m\r\n", BME280_getAltitude());
+		printf("Altitude (P): %.2f m\r\n\n", BME280_getAltitude());
 
 		HAL_Delay(1000);
 	}
