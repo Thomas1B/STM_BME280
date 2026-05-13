@@ -58,6 +58,48 @@ HAL_StatusTypeDef BME280_SleepMode(void) {
 }
 
 /**
+ * @brief  Initialization of BME280
+ *
+ * @param  BME280Init argument to a BME280_Init_t structure that contains
+ *         the configuration information for the BME280 device.
+ *
+ * @retval None
+ */
+void BME280Init(BME280_Init_t BME280Init) {
+
+	uint8_t init = 0;
+
+	//Setting it to sleep mode because the config register can only be changed while the BME280 is in sleep mode
+	if (BME280_SleepMode() == HAL_OK) {
+
+		//Configuration of config register which is control standby time, filter and SPI 3-wire interface
+		init = ((BME280Init.T_StandBy << 5) | (BME280Init.Filter << 2)
+				| (BME280Init.SPI_EnOrDıs << 0));
+		HAL_I2C_Mem_Write(&bme_i2c, BME280_ADDR, CONFIG_REG_ADDR, 1, &init, 1,
+				1000);
+		HAL_Delay(100);
+		init = 0;
+	}
+
+	//Configuration of ctrl_hum register which is control oversamplig of Humidity
+	init = ((BME280Init.OverSampling_H << 0) & 0x7);
+	HAL_I2C_Mem_Write(&bme_i2c, BME280_ADDR, CTRL_HUM_REG_ADDR, 1, &init, 1,
+			1000);
+	HAL_Delay(100);
+	init = 0;
+
+	//Configuration of ctrl_meas register which is control oversamplig of Temperature-Pressure and device mode
+	init = (BME280Init.OverSampling_T << 5) | (BME280Init.OverSampling_P << 2)
+			| BME280Init.Mode;
+	HAL_I2C_Mem_Write(&bme_i2c, BME280_ADDR, CTRL_MEAS_REG_ADDR, 1, &init, 1,
+			1000);
+	HAL_Delay(100);
+	init = 0;
+
+	HAL_Delay(100);
+}
+
+/**
  * @brief  Reading all compensation words from calib registers
  *
  * @param  None
@@ -273,47 +315,5 @@ float BME280_getAltitude(int32_t adc_P) {
 	float pressure;
 	pressure = BME280_measure_Press(adc_P) / 25600.0f;
 	return 44330.0f * (1.0f - powf(pressure / 1013.25f, 1.0f / 5.255f));
-}
-
-/**
- * @brief  Initialization of BME280
- *
- * @param  BME280Init argument to a BME280_Init_t structure that contains
- *         the configuration information for the BME280 device.
- *
- * @retval None
- */
-void BME280Init(BME280_Init_t BME280Init) {
-
-	uint8_t init = 0;
-
-	//Setting it to sleep mode because the config register can only be changed while the BME280 is in sleep mode
-	if (BME280_SleepMode() == HAL_OK) {
-
-		//Configuration of config register which is control standby time, filter and SPI 3-wire interface
-		init = ((BME280Init.T_StandBy << 5) | (BME280Init.Filter << 2)
-				| (BME280Init.SPI_EnOrDıs << 0));
-		HAL_I2C_Mem_Write(&bme_i2c, BME280_ADDR, CONFIG_REG_ADDR, 1, &init, 1,
-				1000);
-		HAL_Delay(100);
-		init = 0;
-	}
-
-	//Configuration of ctrl_hum register which is control oversamplig of Humidity
-	init = ((BME280Init.OverSampling_H << 0) & 0x7);
-	HAL_I2C_Mem_Write(&bme_i2c, BME280_ADDR, CTRL_HUM_REG_ADDR, 1, &init, 1,
-			1000);
-	HAL_Delay(100);
-	init = 0;
-
-	//Configuration of ctrl_meas register which is control oversamplig of Temperature-Pressure and device mode
-	init = (BME280Init.OverSampling_T << 5) | (BME280Init.OverSampling_P << 2)
-			| BME280Init.Mode;
-	HAL_I2C_Mem_Write(&bme_i2c, BME280_ADDR, CTRL_MEAS_REG_ADDR, 1, &init, 1,
-			1000);
-	HAL_Delay(100);
-	init = 0;
-
-	HAL_Delay(100);
 }
 
