@@ -60,7 +60,6 @@ BME280_Init_t bme280Init = {
 };
 
 BME280_Raw_Data_t rawData; // Variable to hold raw data from the BME280 sensor
-BME280_Data_t processedData; // Variable to hold processed data (temperature, pressure, humidity, altitude) from the BME280 sensor
 
 /* USER CODE END PV */
 
