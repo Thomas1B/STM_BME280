@@ -23,7 +23,6 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include "BME280.h"
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,7 +55,7 @@ BME280_Init_t bme280Init = {
 				SPI3_W_DISABLE };
 
 BME280_Raw_Data_t rawData; // Variable to hold raw data from the BME280 sensor
-
+BME280_Data_t allData; // Variable to hold processed data from the BME280 sensor
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -133,7 +132,7 @@ int main(void) {
 		printf("Altitude (P): %.2f m\r\n\n",
 				BME280_getAltitude(rawData.pressr));
 
-		BME280_Data_t allData = BME280_getAllData(); // Get all processed data in a structure
+		allData = BME280_getAllData(); // Get all processed data in a structure
 		printf("Using All in One Function:\r\n");
 		printf("Temperature: %.2f C\r\n", allData.Temperature);
 		printf("Pressure: %.2f hPa\r\n", allData.Pressure);
