@@ -64,7 +64,7 @@ HAL_StatusTypeDef BME280_SleepMode(void) {
  *
  * @retval None
  */
-void Calibdata_BME280(void) {
+void BME280_Calibrate(void) {
 	uint8_t CalibrationData1[26];
 	uint8_t CalibrationData2[7];
 
@@ -234,8 +234,6 @@ float BME280_getHumidity(void) {
 void BME280Calculation(BME280_Data_t *result) {
 	Raw_Data_t rawData = RawdataBME280();
 
-	Calibdata_BME280();
-
 	result->Temperature = (BME280_measure_Temp(rawData.tempr)) / 100.0;	//Degress
 	result->Pressure = (BME280_measure_Press(rawData.pressr)) / 25600.0;//hPa
 	result->Humidity = (BME280_measure_Hum(rawData.humr)) / 1024.0;		//%RH
@@ -258,8 +256,6 @@ float BME280_getAltitude(void) {
 	float pressure;
 
 	rawData = RawdataBME280();
-
-	Calibdata_BME280();
 
 	BME280_measure_Temp(rawData.tempr);
 

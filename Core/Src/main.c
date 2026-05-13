@@ -48,6 +48,8 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 BME280_Init_t bme280Init = {
+		/* Configuration of BME280_Init_t structure with desired settings
+		 * for oversampling, mode, standby time, filter and SPI interface */
 		.OverSampling_T = OVERSAMPLING_1,
 		.OverSampling_P = OVERSAMPLING_1,
 		.OverSampling_H = OVERSAMPLING_1,
@@ -109,6 +111,7 @@ int main(void) {
 	/* USER CODE BEGIN 2 */
 	BME280Init(bme280Init);
 
+
 	for (uint8_t addr = 1; addr < 128; addr++)
 	{
 	    if (HAL_I2C_IsDeviceReady(&hi2c1,
@@ -130,8 +133,6 @@ int main(void) {
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-
-		Raw_Data_t rawData = RawdataBME280();
 
 		printf("Temperature: %.2f C\r\n", BME280_getTemperature());
 		printf("Pressure: %.2f hPa\r\n", BME280_getPressure());

@@ -122,7 +122,7 @@ typedef struct
 /*
  * BME280 library function declaration
  */
-void Calibdata_BME280(void);
+void BME280_Calibrate(void);
 Raw_Data_t RawdataBME280(void);
 void BME280Init(BME280_Init_t BME280Init);
 void BME280Calculation(BME280_Data_t *result);
