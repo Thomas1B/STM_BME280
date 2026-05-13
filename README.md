@@ -31,6 +31,9 @@ BME280_Init_t bme280Init = {
 		.Filter = FILTER_OFF,
 		.SPI_EnOrDıs = SPI3_W_DISABLE
 };
+
+BME280_Raw_Data_t rawData; // Variable to hold raw data from the BME280 sensor
+BME280_Data_t allData; // Variable to hold processed data from the BME280 sensor
 /* USER CODE END PV */
 ```
 
@@ -39,13 +42,12 @@ BME280_Init_t bme280Init = {
 BME280Init(bme280Init); // Initialize the BME280 sensor with the specified settings
 BME280_Calibrate(); // Read the calibration data from the BME280 sensor
 
-for (uint8_t addr = 1; addr < 128; addr++)
-{
-    if (HAL_I2C_IsDeviceReady(&hi2c1, addr << 1, 1, 100) == HAL_OK)
-    {
-        printf("Found device at 0x%02X\r\n", addr);
-    }
+for (uint8_t addr = 1; addr < 128; addr++) {
+	if (HAL_I2C_IsDeviceReady(&hi2c1, addr << 1, 1, 100) == HAL_OK) {
+		printf("Found device at 0x%02X\r\n", addr);
+	}
 }
+
 HAL_Delay(1000);
 /* USER CODE END 2 */
 ```
@@ -59,10 +61,19 @@ while (1) {
 
 	rawData = BME280_RawData(); // Read raw data from the BME280 sensor
 
+	printf("Using Separate Functions:\r\n");
 	printf("Temperature: %.2f C\r\n", BME280_getTemperature(rawData.tempr));
 	printf("Pressure: %.2f hPa\r\n", BME280_getPressure(rawData.pressr));
 	printf("Humidity: %.2f %%\r\n", BME280_getHumidity(rawData.humr));
-	printf("Altitude (P): %.2f m\r\n\n", BME280_getAltitude());
+	printf("Altitude (P): %.2f m\r\n\n",
+			BME280_getAltitude(rawData.pressr));
+
+	allData = BME280_getAllData(); // Get all processed data in a structure
+	printf("Using All in One Function:\r\n");
+	printf("Temperature: %.2f C\r\n", allData.Temperature);
+	printf("Pressure: %.2f hPa\r\n", allData.Pressure);
+	printf("Humidity: %.2f %%\r\n", allData.Humidity);
+	printf("Altitude (P): %.2f m\r\n\n", allData.Altitude);
 
 	HAL_Delay(1000);
 }
