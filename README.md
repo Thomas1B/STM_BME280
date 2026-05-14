@@ -86,3 +86,13 @@ while (1) {
 }
 /* USER CODE END 3 */
 ```
+
+```C
+/* USER CODE BEGIN 4 */
+int __io_putchar(int ch) {
+//	HAL_UART_Transmit(&huart2, (uint8_t*) &ch, 1, HAL_MAX_DELAY); // Transmit the character over UART
+	ITM_SendChar(ch); // Send the character to the SWO console (for debugging)
+	return ch;
+}
+/* USER CODE END 4 */
+```
