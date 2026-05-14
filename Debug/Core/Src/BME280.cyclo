@@ -10,4 +10,4 @@
 ../Core/Src/BME280.c:250:10:BME280_measure_Hum	3
 ../Core/Src/BME280.c:283:7:BME280_getHumidity	1
 ../Core/Src/BME280.c:295:7:BME280_getAltitude	1
-../Core/Src/BME280.c:308:15:BME280_getAllData	1
+../Core/Src/BME280.c:307:15:BME280_getAllData	1

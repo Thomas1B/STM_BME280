@@ -293,17 +293,16 @@ float BME280_getHumidity(int32_t adc_H) {
  * @retval Altitude value in meters
  */
 float BME280_getAltitude(int32_t adc_P) {
-	float pressure;
-	pressure = BME280_measure_Press(adc_P) / 25600.0f;
+	float pressure = BME280_measure_Press(adc_P) / 25600.0f;
 	return 44330.0f * (1.0f - powf(pressure / 1013.25f, 1.0f / 5.255f));
 }
 
 /*
- * @brief  Function to read all raw data, process them with compensation formulas and return the values in a structure
+ * @brief  Function to read all raw data, process them with compensation formulas
  *
  * @param  None
  *
- * @retval BME280_Data_t structure that contains temperature, pressure, humidity and altitude values
+ * @retval BME280_Data_t struct that contains temperature, pressure, humidity and altitude values
  */
 BME280_Data_t BME280_getAllData(void) {
 	BME280_Data_t data;
