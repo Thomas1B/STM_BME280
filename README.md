@@ -1,5 +1,7 @@
 # STM BME280 using I2C
 
+This library will work with BMP280, however no humidity measurement is available
+
 Datasheet: [BME280](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme280-ds002.pdf)
 
 ## BME280 Features
