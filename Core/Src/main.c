@@ -114,6 +114,7 @@ int main(void) {
 	}
 
 	HAL_Delay(1000);
+
 	/* USER CODE END 2 */
 
 	/* Infinite loop */

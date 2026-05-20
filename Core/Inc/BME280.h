@@ -4,7 +4,6 @@
 #include "main.h"
 #include <stdint.h>
 
-
 extern I2C_HandleTypeDef hi2c1;
 #define bme_i2c (hi2c1)
 
@@ -38,7 +37,6 @@ extern I2C_HandleTypeDef hi2c1;
 
 #define CALIB_DATA00_25_BASEADDR 	0x88  				/*!Base address of calib registers which contains compensation words from 0 to 25*/
 #define CALIB_DATA26_41_BASEADDR 	0xE1  				/*!Base address of calib registers which contains compensation words from 26 to 41*/
-
 
 /*
  *	 ===============================================================================
@@ -90,26 +88,25 @@ extern I2C_HandleTypeDef hi2c1;
 #define SPI3_W_DISABLE				0x0
 
 /**
-  * BME280 raw data structure definition
-  */
-typedef struct{
+ * BME280 raw data structure definition
+ */
+typedef struct {
 	int32_t tempr;
 	int32_t pressr;
 	int32_t humr;
-}BME280_Raw_Data_t;
+} BME280_Raw_Data_t;
 
 typedef struct {
-    float Temperature;
-    float Pressure;
-    float Humidity;
-    float Altitude;
-}BME280_Data_t;
+	float Temperature;
+	float Pressure;
+	float Humidity;
+	float Altitude;
+} BME280_Data_t;
 
 /**
-  * BME280 Init structure definition
-  */
-typedef struct
-{
+ * BME280 Init structure definition
+ */
+typedef struct {
 	uint8_t OverSampling_T;
 	uint8_t OverSampling_P;
 	uint8_t OverSampling_H;
@@ -117,7 +114,16 @@ typedef struct
 	uint8_t T_StandBy;
 	uint8_t Filter;
 	uint8_t SPI_EnOrDıs;
-}BME280_Init_t;
+} BME280_Init_t;
+
+/**
+ * BME280 Offsets structure definition
+ */
+typedef struct {
+	float Temperature;
+	float Pressure;
+	float Humidity;
+} BME280_Offsets_t;
 
 /*
  * BME280 library function declaration
