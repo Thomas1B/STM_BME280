@@ -122,7 +122,7 @@ typedef struct
 /*
  * BME280 library function declaration
  */
-void BME280_Calibrate(void);
+void BME280_LoadFactoryCalibration(void);
 BME280_Raw_Data_t BME280_RawData(void);
 void BME280Init(BME280_Init_t BME280Init);
 HAL_StatusTypeDef BME280_SleepMode(void);

@@ -105,7 +105,7 @@ int main(void) {
 
 	/* USER CODE BEGIN 2 */
 	BME280Init(bme280Init); // Initialize the BME280 sensor with the specified settings
-	BME280_Calibrate(); // Read the calibration data from the BME280 sensor
+//	BME280_LoadFactoryCalibration(); // Read the calibration data from the BME280 sensor
 
 	for (uint8_t addr = 1; addr < 128; addr++) {
 		if (HAL_I2C_IsDeviceReady(&hi2c1, addr << 1, 1, 100) == HAL_OK) {

@@ -96,17 +96,17 @@ void BME280Init(BME280_Init_t BME280Init) {
 	HAL_Delay(100);
 	init = 0;
 
-	HAL_Delay(100);
+	BME280_LoadFactoryCalibration(); // Load the factory calibration data from the BME280 sensor
 }
 
 /**
- * @brief  Reading all compensation words from calib registers
+ * @brief  Load the factory calibration data from the BME280 sensor and store it in global variables
  *
  * @param  None
  *
  * @retval None
  */
-void BME280_Calibrate(void) {
+void BME280_LoadFactoryCalibration(void) {
 	uint8_t CalibrationData1[26];
 	uint8_t CalibrationData2[7];
 

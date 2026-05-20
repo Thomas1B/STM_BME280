@@ -1,7 +1,7 @@
 ../Core/Src/BME280.c:25:6:Reset_BME280	2
 ../Core/Src/BME280.c:51:19:BME280_SleepMode	1
 ../Core/Src/BME280.c:68:6:BME280Init	2
-../Core/Src/BME280.c:109:6:BME280_Calibrate	1
+../Core/Src/BME280.c:109:6:BME280_LoadFactoryCalibration	1
 ../Core/Src/BME280.c:146:19:BME280_RawData	1
 ../Core/Src/BME280.c:170:9:BME280_measure_Temp	1
 ../Core/Src/BME280.c:198:7:BME280_getTemperature	1

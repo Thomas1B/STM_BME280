@@ -1,7 +1,7 @@
 ../Core/Src/BME280.c:25:6:Reset_BME280	32	static
 ../Core/Src/BME280.c:51:19:BME280_SleepMode	32	static
 ../Core/Src/BME280.c:68:6:BME280Init	40	static
-../Core/Src/BME280.c:109:6:BME280_Calibrate	64	static
+../Core/Src/BME280.c:109:6:BME280_LoadFactoryCalibration	64	static
 ../Core/Src/BME280.c:146:19:BME280_RawData	64	static
 ../Core/Src/BME280.c:170:9:BME280_measure_Temp	32	static
 ../Core/Src/BME280.c:198:7:BME280_getTemperature	16	static
