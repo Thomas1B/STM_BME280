@@ -130,7 +130,6 @@ typedef struct {
  * BME280 library function declaration
  */
 void Reset_BME280(void);
-void BME280_LoadFactoryCalibration(void);
 BME280_Raw_Data_t BME280_RawData(void);
 void BME280Init(BME280_Init_t BME280Init);
 HAL_StatusTypeDef BME280_SleepMode(void);
@@ -140,7 +139,10 @@ float BME280_getHumidity(int32_t adc_H);
 float BME280_getAltitude(int32_t adc_P);
 BME280_Data_t BME280_getAllData(void);
 float BME280_getTemperatureOffset(void);
+void BME280_setTemperatureOffset(float offset);
 float BME280_getPressureOffset(void);
+void BME280_setPressureOffset(float offset);
 float BME280_getHumidityOffset(void);
+void BME280_setHumidityOffset(float offset);
 
 #endif /* INC_BME280_STM32_H_ */

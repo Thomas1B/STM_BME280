@@ -105,16 +105,12 @@ int main(void) {
 
 	/* USER CODE BEGIN 2 */
 	BME280Init(bme280Init); // Initialize the BME280 sensor with the specified settings
-//	BME280_LoadFactoryCalibration(); // Read the calibration data from the BME280 sensor
 
 	for (uint8_t addr = 1; addr < 128; addr++) {
 		if (HAL_I2C_IsDeviceReady(&hi2c1, addr << 1, 1, 100) == HAL_OK) {
 			printf("Found device at 0x%02X\r\n", addr);
 		}
 	}
-
-	HAL_Delay(1000);
-	printf("Offset Temperature: %.2f C\r\n", BME280_getTemperatureOffset());
 
 	HAL_Delay(1000);
 
@@ -161,7 +157,7 @@ void SystemClock_Config(void) {
 	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
 	/** Initializes the RCC Oscillators according to the specified parameters
-	 * in the RCC_OscInitTypeDef structure.
+	 * in the RCC_OscInitTypeDefstructure.
 	 */
 	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
 	RCC_OscInitStruct.HSIState = RCC_HSI_ON;

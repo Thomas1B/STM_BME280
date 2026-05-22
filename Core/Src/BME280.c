@@ -13,15 +13,12 @@
 unsigned short dig_T1, dig_P1, dig_H1, dig_H3;
 signed short dig_T2, dig_T3, dig_P2, dig_P3, dig_P4, dig_P5, dig_P6, dig_P7,
 		dig_P8, dig_P9, dig_H2, dig_H4, dig_H5, dig_H6;
+int32_t t_fine;
 
 // Structure to hold the offsets for temperature, pressure and humidity
-static BME280_Offsets_t offsets = {
-		.Temperature = 0.0f,
-		.Pressure = 0.0f,
-		.Humidity = 0.0f
-};
+static BME280_Offsets_t offsets = { .Temperature = 0.0f, .Pressure = 0.0f,
+		.Humidity = 0.0f };
 
-int32_t t_fine;
 /**
  * @brief  Software Reset to BME280
  *
@@ -65,6 +62,43 @@ HAL_StatusTypeDef BME280_SleepMode(void) {
 }
 
 /**
+ * @brief  Load the factory calibration data from the BME280 sensor and store it in global variables
+ *
+ * @param  None
+ *
+ * @retval None
+ */
+void BME280_LoadFactoryCalibration(void) {
+	uint8_t CalibrationData1[26];
+	uint8_t CalibrationData2[7];
+
+	HAL_I2C_Mem_Read(&bme_i2c, BME280_ADDR, CALIB_DATA00_25_BASEADDR, 1,
+			CalibrationData1, 26, HAL_MAX_DELAY); //From 0x88 to 0xA1
+	HAL_I2C_Mem_Read(&bme_i2c, BME280_ADDR, CALIB_DATA26_41_BASEADDR, 1,
+			CalibrationData2, 7, HAL_MAX_DELAY); //From 0xE1 to 0xE7
+
+	dig_T1 = (CalibrationData1[1] << 8) | CalibrationData1[0];
+	dig_T2 = (CalibrationData1[3] << 8) | CalibrationData1[2];
+	dig_T3 = (CalibrationData1[5] << 8) | CalibrationData1[4];
+	dig_P1 = (CalibrationData1[7] << 8) | CalibrationData1[6];
+	dig_P2 = (CalibrationData1[9] << 8) | CalibrationData1[8];
+	dig_P3 = (CalibrationData1[11] << 8) | CalibrationData1[10];
+	dig_P4 = (CalibrationData1[13] << 8) | CalibrationData1[12];
+	dig_P5 = (CalibrationData1[15] << 8) | CalibrationData1[14];
+	dig_P6 = (CalibrationData1[17] << 8) | CalibrationData1[16];
+	dig_P7 = (CalibrationData1[19] << 8) | CalibrationData1[18];
+	dig_P8 = (CalibrationData1[21] << 8) | CalibrationData1[20];
+	dig_P9 = (CalibrationData1[23] << 8) | CalibrationData1[22];
+	dig_H1 = (CalibrationData1[25]);
+
+	dig_H2 = (CalibrationData2[1] << 8) | CalibrationData2[0];
+	dig_H3 = (CalibrationData2[2]);
+	dig_H4 = (CalibrationData2[3] << 4) | (CalibrationData2[4] & 0x0F);
+	dig_H5 = (CalibrationData2[5] << 4) | (CalibrationData2[4] >> 4);
+	dig_H6 = (CalibrationData2[6]);
+}
+
+/**
  * @brief  Initialization of BME280
  *
  * @param  BME280Init argument to a BME280_Init_t structure that contains
@@ -104,43 +138,6 @@ void BME280Init(BME280_Init_t BME280Init) {
 	init = 0;
 
 	BME280_LoadFactoryCalibration(); // Load the factory calibration data from the BME280 sensor
-}
-
-/**
- * @brief  Load the factory calibration data from the BME280 sensor and store it in global variables
- *
- * @param  None
- *
- * @retval None
- */
-void BME280_LoadFactoryCalibration(void) {
-	uint8_t CalibrationData1[26];
-	uint8_t CalibrationData2[7];
-
-	HAL_I2C_Mem_Read(&bme_i2c, BME280_ADDR, CALIB_DATA00_25_BASEADDR, 1,
-			CalibrationData1, 26, HAL_MAX_DELAY); //From 0x88 to 0xA1
-	HAL_I2C_Mem_Read(&bme_i2c, BME280_ADDR, CALIB_DATA26_41_BASEADDR, 1,
-			CalibrationData2, 7, HAL_MAX_DELAY); //From 0xE1 to 0xE7
-
-	dig_T1 = (CalibrationData1[1] << 8) | CalibrationData1[0];
-	dig_T2 = (CalibrationData1[3] << 8) | CalibrationData1[2];
-	dig_T3 = (CalibrationData1[5] << 8) | CalibrationData1[4];
-	dig_P1 = (CalibrationData1[7] << 8) | CalibrationData1[6];
-	dig_P2 = (CalibrationData1[9] << 8) | CalibrationData1[8];
-	dig_P3 = (CalibrationData1[11] << 8) | CalibrationData1[10];
-	dig_P4 = (CalibrationData1[13] << 8) | CalibrationData1[12];
-	dig_P5 = (CalibrationData1[15] << 8) | CalibrationData1[14];
-	dig_P6 = (CalibrationData1[17] << 8) | CalibrationData1[16];
-	dig_P7 = (CalibrationData1[19] << 8) | CalibrationData1[18];
-	dig_P8 = (CalibrationData1[21] << 8) | CalibrationData1[20];
-	dig_P9 = (CalibrationData1[23] << 8) | CalibrationData1[22];
-	dig_H1 = (CalibrationData1[25]);
-
-	dig_H2 = (CalibrationData2[1] << 8) | CalibrationData2[0];
-	dig_H3 = (CalibrationData2[2]);
-	dig_H4 = (CalibrationData2[3] << 4) | (CalibrationData2[4] & 0x0F);
-	dig_H5 = (CalibrationData2[5] << 4) | (CalibrationData2[4] >> 4);
-	dig_H6 = (CalibrationData2[6]);
 }
 
 /**
@@ -301,7 +298,7 @@ float BME280_getHumidity(int32_t adc_H) {
  * @retval Altitude value in meters
  */
 float BME280_getAltitude(int32_t adc_P) {
-	float pressure = BME280_measure_Press(adc_P) / 25600.0f;
+	float pressure = BME280_getPressure(adc_P);
 	return 44330.0f * (1.0f - powf(pressure / 1013.25f, 1.0f / 5.255f));
 }
 
@@ -333,8 +330,13 @@ BME280_Data_t BME280_getAllData(void) {
  *
  * @retval None
  */
-float BME280_getTemperatureOffset(void) {	return offsets.Temperature;}
+float BME280_getTemperatureOffset(void) {
+	return offsets.Temperature;
+}
 
+void BME280_setTemperatureOffset(float offset) {
+	offsets.Temperature = offset;
+}
 
 /*
  * @brief  Function to get the current pressure offset value
@@ -347,6 +349,10 @@ float BME280_getPressureOffset(void) {
 	return offsets.Pressure;
 }
 
+void BME280_setPressureOffset(float offset) {
+	offsets.Pressure = offset;
+}
+
 /*
  * @brief  Function to get the current humidity offset value
  *
@@ -356,4 +362,8 @@ float BME280_getPressureOffset(void) {
  */
 float BME280_getHumidityOffset(void) {
 	return offsets.Humidity;
+}
+
+void BME_setHumidityOffset(float offset) {
+	offsets.Humidity = offset;
 }
