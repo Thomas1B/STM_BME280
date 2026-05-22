@@ -131,6 +131,8 @@ int main(void) {
 		printf("Humidity: %.2f %%\r\n", BME280_getHumidity(rawData.humr));
 		printf("Altitude (P): %.2f m\r\n\n", BME280_getAltitude(rawData.pressr));
 
+		BME280_setTemperatureOffset(2);
+
 		allData = BME280_getAllData(); // Get all processed data in a structure
 		printf("Using All in One Function:\r\n");
 		printf("Temperature: %.2f C\r\n", allData.Temperature);

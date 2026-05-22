@@ -4,11 +4,11 @@
 ../Core/Src/BME280.c:109:6:BME280Init	40	static
 ../Core/Src/BME280.c:150:19:BME280_RawData	64	static
 ../Core/Src/BME280.c:174:9:BME280_measure_Temp	32	static
-../Core/Src/BME280.c:203:7:BME280_getTemperature	16	static
+../Core/Src/BME280.c:203:7:BME280_getTemperature	24	static
 ../Core/Src/BME280.c:214:10:BME280_measure_Press	328	static
 ../Core/Src/BME280.c:243:7:BME280_getPressure	24	static
 ../Core/Src/BME280.c:255:10:BME280_measure_Hum	24	static
-../Core/Src/BME280.c:288:7:BME280_getHumidity	16	static
+../Core/Src/BME280.c:288:7:BME280_getHumidity	24	static
 ../Core/Src/BME280.c:300:7:BME280_getAltitude	24	static
 ../Core/Src/BME280.c:312:15:BME280_getAllData	80	static
 ../Core/Src/BME280.c:333:7:BME280_getTemperatureOffset	4	static
@@ -16,4 +16,4 @@
 ../Core/Src/BME280.c:348:7:BME280_getPressureOffset	4	static
 ../Core/Src/BME280.c:352:6:BME280_setPressureOffset	16	static
 ../Core/Src/BME280.c:363:7:BME280_getHumidityOffset	4	static
-../Core/Src/BME280.c:367:6:BME_setHumidityOffset	16	static
+../Core/Src/BME280.c:367:6:BME280_setHumidityOffset	16	static

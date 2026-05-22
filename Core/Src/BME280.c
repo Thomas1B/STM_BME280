@@ -201,7 +201,7 @@ int32_t BME280_measure_Temp(int32_t adc_T) {
  *
  */
 float BME280_getTemperature(int32_t adc_T) {
-	return (BME280_measure_Temp(adc_T)) / 100.0;
+	return ((BME280_measure_Temp(adc_T)) / 100.0) + offsets.Temperature;
 }
 
 /**
@@ -242,7 +242,7 @@ uint32_t BME280_measure_Press(int32_t adc_P) {
  */
 float BME280_getPressure(int32_t adc_P) {
 	float Pascals = BME280_measure_Press(adc_P) / 256.0f; // Convert from Q24.8 format to Pa
-	return Pascals / 100.0f; // Convert from Pa to hPa
+	return (Pascals / 100.0f) + offsets.Pressure; // Convert from Pa to hPa
 }
 
 /**
@@ -287,7 +287,7 @@ uint32_t BME280_measure_Hum(int32_t adc_H) {
  */
 float BME280_getHumidity(int32_t adc_H) {
 
-	return (BME280_measure_Hum(adc_H)) / 1024.0;
+	return ((BME280_measure_Hum(adc_H)) / 1024.0) + offsets.Humidity;
 }
 
 /**
@@ -364,6 +364,6 @@ float BME280_getHumidityOffset(void) {
 	return offsets.Humidity;
 }
 
-void BME_setHumidityOffset(float offset) {
+void BME280_setHumidityOffset(float offset) {
 	offsets.Humidity = offset;
 }

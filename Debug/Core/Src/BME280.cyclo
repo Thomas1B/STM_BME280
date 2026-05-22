@@ -16,4 +16,4 @@
 ../Core/Src/BME280.c:348:7:BME280_getPressureOffset	1
 ../Core/Src/BME280.c:352:6:BME280_setPressureOffset	1
 ../Core/Src/BME280.c:363:7:BME280_getHumidityOffset	1
-../Core/Src/BME280.c:367:6:BME_setHumidityOffset	1
+../Core/Src/BME280.c:367:6:BME280_setHumidityOffset	1
