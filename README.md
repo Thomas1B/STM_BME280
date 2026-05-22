@@ -20,6 +20,15 @@ Pick what I2C pins/channel you want to use.
 
 Copy `BME280.C` to "Core/Src", and `BME280.h` to "Core/Inc"
 
+In the header file BME280.h, change these to the I2C channel you using
+```C
+extern I2C_HandleTypeDef hi2c1;
+#define bme_i2c (hi2c1)
+```
+
+
+In main.c:
+
 ```C
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
@@ -49,7 +58,6 @@ BME280_Data_t allData; // Variable to hold processed data from the BME280 sensor
 ```C
 /* USER CODE BEGIN 2 */
 BME280Init(bme280Init); // Initialize the BME280 sensor with the specified settings
-BME280_Calibrate(); // Read the calibration data from the BME280 sensor
 
 for (uint8_t addr = 1; addr < 128; addr++) {
 	if (HAL_I2C_IsDeviceReady(&hi2c1, addr << 1, 1, 100) == HAL_OK) {
@@ -98,3 +106,6 @@ int __io_putchar(int ch) {
 }
 /* USER CODE END 4 */
 ```
+
+
+## Handling Offsets
