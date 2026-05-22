@@ -114,6 +114,9 @@ int main(void) {
 	}
 
 	HAL_Delay(1000);
+	printf("Offset Temperature: %.2f C\r\n", BME280_getTemperatureOffset());
+
+	HAL_Delay(1000);
 
 	/* USER CODE END 2 */
 

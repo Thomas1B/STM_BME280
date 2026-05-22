@@ -14,6 +14,13 @@ unsigned short dig_T1, dig_P1, dig_H1, dig_H3;
 signed short dig_T2, dig_T3, dig_P2, dig_P3, dig_P4, dig_P5, dig_P6, dig_P7,
 		dig_P8, dig_P9, dig_H2, dig_H4, dig_H5, dig_H6;
 
+// Structure to hold the offsets for temperature, pressure and humidity
+static BME280_Offsets_t offsets = {
+		.Temperature = 0.0f,
+		.Pressure = 0.0f,
+		.Humidity = 0.0f
+};
+
 int32_t t_fine;
 /**
  * @brief  Software Reset to BME280
@@ -187,6 +194,7 @@ int32_t BME280_measure_Temp(int32_t adc_T) {
 
 	return T;
 }
+
 /*
  * @brief  Compensation formula for temperature and return the value in degree Celsius
  *
@@ -316,4 +324,36 @@ BME280_Data_t BME280_getAllData(void) {
 	return data;
 }
 
+/*
+ * @brief  Function to set offsets for temperature, pressure and humidity
+ *
+ * @param  tempOffset: Offset value for temperature in degree Celsius
+ *         pressOffset: Offset value for pressure in hPa
+ *         humOffset: Offset value for humidity in %RH
+ *
+ * @retval None
+ */
+float BME280_getTemperatureOffset(void) {	return offsets.Temperature;}
 
+
+/*
+ * @brief  Function to get the current pressure offset value
+ *
+ * @param  None
+ *
+ * @retval Current pressure offset value in hPa
+ */
+float BME280_getPressureOffset(void) {
+	return offsets.Pressure;
+}
+
+/*
+ * @brief  Function to get the current humidity offset value
+ *
+ * @param  None
+ *
+ * @retval Current humidity offset value in %RH
+ */
+float BME280_getHumidityOffset(void) {
+	return offsets.Humidity;
+}
