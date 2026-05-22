@@ -109,3 +109,26 @@ int __io_putchar(int ch) {
 
 
 ## Handling Offsets
+The functions `BME280_getTemperature`  , `BME280_getPressure`  , and `BME280_getHumidity` all apply an offset automatically.
+
+The offsets are ADDED to the value using the following units
+
+| Offset      | Units | Default Value |
+|:-----------:|:-----:|:-------------:|
+| Temperature | C     | 0             |
+| Pressure    | hPa   | 0             |
+| Humidity    | %     | 0             |
+
+
+### Example
+Suppose you are reading temperature with the sensor and it reads 22C, but its actually 25.1C.
+The offsets would be determined by 
+
+$$ offset = 25.1 - 22 = 3.1C $$
+
+To use this value, you would call 
+```C
+BME280_setTemperatureOffset(3.1);
+```
+
+Similarly for pressure and humidty.
