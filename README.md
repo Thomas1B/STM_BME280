@@ -6,7 +6,7 @@ Datasheet: [BME280](https://www.bosch-sensortec.com/media/boschsensortec/downloa
 
 ## BME280 Features
 
-The BME280 sensor is a 3 in 1 sensor" temperature, pressure, and humidity.
+The BME280 sensor is a 3 in 1 sensor: temperature, pressure, and humidity.
 
 ## BME280 Setup
 It is always recommended to read the datasheet for full understanding.
@@ -20,7 +20,7 @@ Pick what I2C pins/channel you want to use.
 
 Copy `BME280.C` to "Core/Src", and `BME280.h` to "Core/Inc"
 
-In the header file BME280.h, change these to the I2C channel you using
+In the header file BME280.h, change these to the I2C channel you are using
 ```C
 extern I2C_HandleTypeDef hi2c1;
 #define bme_i2c (hi2c1)
